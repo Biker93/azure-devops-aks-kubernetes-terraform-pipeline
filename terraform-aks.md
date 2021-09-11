@@ -161,3 +161,13 @@ Open Service Connections
 *** re-running job does not seem to pull updated repo code ***
 started a NEW job ... that got the changed password length and completed!!
 
+az aks get-credentials --resource-group terraform-aks-dev  --name terraform-aks-dev-cluster --admin
+*** error *** because I never used this account in terminal!
+
+az login   #in the Safari/MSDN browser
+kubectl config get-contexts
+cp ~/.kube/config ~/.kube/config-210911
+az aks get-credentials --resource-group terraform-aks-dev  --name terraform-aks-dev-cluster --admin
+kubectl config get-contexts
+
+az aks nodepool list --cluster-name terraform-aks-dev-cluster --resource-group terraform-aks-dev -o table
