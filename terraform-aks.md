@@ -156,3 +156,8 @@ Open Service Connections
 
 
 │ Error: creating Managed Kubernetes Cluster "terraform-aks-dev-cluster" (Resource Group "terraform-aks-dev"): containerservice.ManagedClustersClient#CreateOrUpdate: Failure sending request: StatusCode=0 -- Original Error: Code="WindowsProfilePasswordInvalid" Message="Invalid adminPassword. Error: Length of password is invalid. Required length: [14, 123]. Minimum password length required by AKS for AzSecPack is longer. Please see https://docs.microsoft.com/en-us/rest/api/compute/virtualmachinescalesets/createorupdate#virtualmachinescalesetosprofile"
+
+
+*** re-running job does not seem to pull updated repo code ***
+started a NEW job ... that got the changed password length and completed!!
+
