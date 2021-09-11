@@ -171,3 +171,8 @@ az aks get-credentials --resource-group terraform-aks-dev  --name terraform-aks-
 kubectl config get-contexts
 
 az aks nodepool list --cluster-name terraform-aks-dev-cluster --resource-group terraform-aks-dev -o table
+
+Error: creating/updating Managed Kubernetes Cluster Node Pool "win101" (Resource Group "terraform-aks-dev"): containerservice.AgentPoolsClient#CreateOrUpdate: Failure sending request: StatusCode=0 -- Original Error: Code="InvalidOSSKU" Message="OSSKU='Ubuntu' is invalid, details: Windows does not allow OSSKU selection"
+│ 
+on 10-aks-cluster-windows-user-nodepools.tf line 3, in resource "azurerm_kubernetes_cluster_node_pool" "win101":
+│    3: resource "azurerm_kubernetes_cluster_node_pool" "win101" {
