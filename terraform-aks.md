@@ -189,3 +189,15 @@ back to original error
 https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool
 
 
+disable current pipeline
+
+rename all .tf to TEST/PROD
+push
+create new pipeline to test run from scratch --- JUST WINDOWS node pool
+
+
+https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/kubernetes
+
+https://stacksimplify.com/azure-aks/create-aks-nodepools-using-terraform/
+
+
