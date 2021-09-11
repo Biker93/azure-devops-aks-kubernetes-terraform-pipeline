@@ -176,3 +176,16 @@ Error: creating/updating Managed Kubernetes Cluster Node Pool "win101" (Resource
 │ 
 on 10-aks-cluster-windows-user-nodepools.tf line 3, in resource "azurerm_kubernetes_cluster_node_pool" "win101":
 │    3: resource "azurerm_kubernetes_cluster_node_pool" "win101" {
+
+Added it manually to confirm parameters
+only difference: the default (required?) disk size = 128GB so specifying 30GB may be the error
+
+Error: A resource with the ID "/subscriptions/cf71d4cd-095a-47ec-bca0-060c571abedf/resourcegroups/terraform-aks-dev/providers/Microsoft.ContainerService/managedClusters/terraform-aks-dev-cluster/agentPools/win101" already exists - to be managed via Terraform this resource needs to be imported into the State. Please see the resource documentation for "azurerm_kubernetes_cluster_node_pool" for more information.
+│ 
+
+manually delete win101 and re-run
+back to original error
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool
+
+
