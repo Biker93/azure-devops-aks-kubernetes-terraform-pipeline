@@ -1,7 +1,7 @@
 # Define Input Variables
 # 1. Azure Location (CentralUS)
 # 2. Azure Resource Group Name 
-# 3. Azure AKS Environment Name (Dev, QA, Prod)
+# 3. Azure AKS Environment Name (test, prod)
 
 # Azure Location
 variable "location" {
@@ -21,7 +21,7 @@ variable "resource_group_name" {
 variable "environment" {
   type = string  
   description = "This variable defines the Environment"  
-  #default = "dev2"
+  #default = "test"
 }
 
 

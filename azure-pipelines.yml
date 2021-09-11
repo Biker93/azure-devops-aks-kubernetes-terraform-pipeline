@@ -6,10 +6,10 @@ pool:
 
 # Define Variables for Environments
 variables:
-- name: DEV_ENVIRONMENT
-  value: dev
-- name: QA_ENVIRONMENT
-  value: qa  
+- name: TEST_ENVIRONMENT
+  value: test
+- name: PROD_ENVIRONMENT
+  value: prod  
 
 # Stage-1: Terraform Validate Stage
 ## Step-1: Publish Artifacts to Pipeline (Pipeline artifacts provide a way to share files between stages in a pipeline or between different pipelines. )
@@ -51,21 +51,21 @@ stages:
           workingDirectory: '$(System.DefaultWorkingDirectory)/terraform-manifests'
           allowTelemetryCollection: false
 
-# Stage-2: Deploy Stages for Dev & QA
-# Deployment-1: Deploy Dev AKS Cluster
+# Stage-2: Deploy Stages for TEST & PROD
+# Deployment-1: Deploy Test AKS Cluster
 ## Step-1: Define Variables for environments
 ## Step-2: Download SSH Secure File
-## Step-3: Terraform Initialize (State Storage to store in Azure Storage Account for Dev AKS Cluster)
+## Step-3: Terraform Initialize (State Storage to store in Azure Storage Account for Test AKS Cluster)
 ## Step-4: Terraform Plan (Create Plan)
 ## Step-5: Terraform Apply (Use the plan created in previous step)
 
 - stage: DeployAKSClusters
   jobs:
-    - deployment: DeployDevAKSCluster
-      displayName: DeployDevAKSCluster
+    - deployment: DeployTestAKSCluster
+      displayName: DeployTestAKSCluster
       pool:
         vmImage: 'ubuntu-latest'
-      environment: $(DEV_ENVIRONMENT)      
+      environment: $(TEST_ENVIRONMENT)      
       strategy:
         runOnce:
           deploy:
@@ -85,7 +85,7 @@ stages:
                 backendAzureRmResourceGroupName: 'terraform-storage-rg'
                 backendAzureRmStorageAccountName: 'terraformstateamt'
                 backendAzureRmContainerName: 'tfstatefiles'
-                backendAzureRmKey: 'aks-$(DEV_ENVIRONMENT).tfstate'
+                backendAzureRmKey: 'aks-$(TEST_ENVIRONMENT).tfstate'
                 allowTelemetryCollection: false
             - task: TerraformCLI@0
               displayName: Terraform Plan
@@ -93,7 +93,7 @@ stages:
                 command: 'plan'
                 workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                 environmentServiceName: 'terraform-aks-azurerm-svc-con'
-                commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var environment=$(DEV_ENVIRONMENT) -out $(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
+                commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var environment=$(TEST_ENVIRONMENT) -out $(Pipeline.Workspace)/terraform-manifests-out/$(TEST_ENVIRONMENT)-$(Build.BuildId).out'
                 allowTelemetryCollection: false
             - task: TerraformCLI@0
               displayName: Terraform Apply
@@ -101,22 +101,22 @@ stages:
                 command: 'apply'
                 workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
                 environmentServiceName: 'terraform-aks-azurerm-svc-con'
-                commandOptions: '$(Pipeline.Workspace)/terraform-manifests-out/$(DEV_ENVIRONMENT)-$(Build.BuildId).out'
+                commandOptions: '$(Pipeline.Workspace)/terraform-manifests-out/$(TEST_ENVIRONMENT)-$(Build.BuildId).out'
                 allowTelemetryCollection: false
 
-# Stage-2: Deploy Stages for Dev & QA
-# Deployment-2: Deploy QA AKS Cluster
+# Stage-2: Deploy Stages for Test &Prod
+# Deployment-2: Deploy Prod AKS Cluster
 ## Step-1: Download Secure File
 ## Step-2: Terraform Initialize (State Storage to store in Azure Storage Account)
 ## Step-3: Terraform Plan 
 ## Step-4: Terraform Apply
 
-    # - deployment: DeployQAAKSCluster
-    #   dependsOn: DeployDevAKSCluster
-    #   displayName: DeployQAAKSCluster
+    # - deployment: DeployProdAKSCluster
+    #   dependsOn: DeployTestAKSCluster
+    #   displayName: DeployProdAKSCluster
     #   pool:
     #     vmImage: 'ubuntu-latest'
-    #   environment: $(QA_ENVIRONMENT)      
+    #   environment: $(PROD_ENVIRONMENT)      
     #   strategy:
     #     runOnce:
     #       deploy:
@@ -136,7 +136,7 @@ stages:
     #             backendAzureRmResourceGroupName: 'terraform-storage-rg'
     #             backendAzureRmStorageAccountName: 'terraformstateamt'
     #             backendAzureRmContainerName: 'tfstatefiles'
-    #             backendAzureRmKey: 'aks-$(QA_ENVIRONMENT).tfstate'
+    #             backendAzureRmKey: 'aks-$(PROD_ENVIRONMENT).tfstate'
     #             allowTelemetryCollection: false
     #         - task: TerraformCLI@0
     #           displayName: Terraform Plan
@@ -144,7 +144,7 @@ stages:
     #             command: 'plan'
     #             workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
     #             environmentServiceName: 'terraform-aks-azurerm-svc-con'
-    #             commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var environment=$(QA_ENVIRONMENT) -out $(Pipeline.Workspace)/terraform-manifests-out/$(QA_ENVIRONMENT)-$(Build.BuildId).out'
+    #             commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var environment=$(PROD_ENVIRONMENT) -out $(Pipeline.Workspace)/terraform-manifests-out/$(PROD_ENVIRONMENT)-$(Build.BuildId).out'
     #             allowTelemetryCollection: false
     #         - task: TerraformCLI@0
     #           displayName: Terraform Apply
@@ -152,5 +152,5 @@ stages:
     #             command: 'apply'
     #             workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
     #             environmentServiceName: 'terraform-aks-azurerm-svc-con'
-    #             commandOptions: '$(Pipeline.Workspace)/terraform-manifests-out/$(QA_ENVIRONMENT)-$(Build.BuildId).out'
+    #             commandOptions: '$(Pipeline.Workspace)/terraform-manifests-out/$(PROD_ENVIRONMENT)-$(Build.BuildId).out'
     #             allowTelemetryCollection: false
