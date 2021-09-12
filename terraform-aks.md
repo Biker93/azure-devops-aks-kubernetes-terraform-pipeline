@@ -200,4 +200,141 @@ https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/kuber
 
 https://stacksimplify.com/azure-aks/create-aks-nodepools-using-terraform/
 
+https://stacksimplify.com/azure-aks/create-windows-linux-virtualnodepools-using-az-aks-cli/
+
+AKS_RESOURCE_GROUP=terraform-aks-test
+AKS_CLUSTER=terraform-aks-test-cluster
+# Create New Windows Node Pool 
+az aks nodepool add --resource-group ${AKS_RESOURCE_GROUP} \
+                    --cluster-name ${AKS_CLUSTER} \
+                    --os-type Windows \
+                    --name win101 \
+                    --node-count 1 \
+                    --enable-cluster-autoscaler \
+                    --max-count 5 \
+                    --min-count 1 \
+                    --mode User \
+                    --node-vm-size Standard_DS2_v2 \
+                    --labels environment=production nodepoolos=windows app=dotnet-apps nodepool-type=user \
+                    --tags environment=production nodepoolos=windows app=dotnet-apps nodepool-type=user \
+                    --zones {1,2,3}
+
+{
+  "availabilityZones": [
+    "1",
+    "2",
+    "3"
+  ],
+  "count": 1,
+  "enableAutoScaling": true,
+  "enableEncryptionAtHost": false,
+  "enableFips": false,
+  "enableNodePublicIp": false,
+  "enableUltraSsd": false,
+  "gpuInstanceProfile": null,
+  "id": "/subscriptions/cf71d4cd-095a-47ec-bca0-060c571abedf/resourcegroups/terraform-aks-test/providers/Microsoft.ContainerService/managedClusters/terraform-aks-test-cluster/agentPools/win101",
+  "kubeletConfig": null,
+  "kubeletDiskType": "OS",
+  "linuxOsConfig": null,
+  "maxCount": 5,
+  "maxPods": 30,
+  "minCount": 1,
+  "mode": "User",
+  "name": "win101",
+  "nodeImageVersion": "AKSWindows-2019-17763.2114.210811",
+  "nodeLabels": {
+    "app": "dotnet-apps",
+    "environment": "production",
+    "nodepool-type": "user",
+    "nodepoolos": "windows"
+  },
+  "nodePublicIpPrefixId": null,
+  "nodeTaints": null,
+  "orchestratorVersion": "1.21.2",
+  "osDiskSizeGb": 128,
+  "osDiskType": "Managed",
+  "osSku": null,
+  "osType": "Windows",
+  "podSubnetId": null,
+  "powerState": {
+    "code": "Running"
+  },
+  "provisioningState": "Succeeded",
+  "proximityPlacementGroupId": null,
+  "resourceGroup": "terraform-aks-test",
+  "scaleSetEvictionPolicy": null,
+  "scaleSetPriority": null,
+  "spotMaxPrice": null,
+  "tags": {
+    "app": "dotnet-apps",
+    "environment": "production",
+    "nodepool-type": "user",
+    "nodepoolos": "windows"
+  },
+  "type": "Microsoft.ContainerService/managedClusters/agentPools",
+  "typePropertiesType": "VirtualMachineScaleSets",
+  "upgradeSettings": {
+    "maxSurge": null
+  },
+  "vmSize": "Standard_DS2_v2",
+  "vnetSubnetId": null
+}
+
+
+check the version info
+
+Initializing provider plugins...
+- Finding hashicorp/azuread versions matching "~> 1.0"...
+- Finding hashicorp/random versions matching "~> 3.0"...
+- Finding hashicorp/azurerm versions matching "~> 2.0"...
+- Installing hashicorp/azuread v1.6.0...
+- Installed hashicorp/azuread v1.6.0 (signed by HashiCorp)
+- Installing hashicorp/random v3.1.0...
+- Installed hashicorp/random v3.1.0 (signed by HashiCorp)
+- Installing hashicorp/azurerm v2.76.0...
+- Installed hashicorp/azurerm v2.76.0 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+
+
+Starting: Terraform Apply
+==============================================================================
+Task         : Terraform CLI
+Description  : Execute terraform cli commands
+Version      : 0.6.27
+Author       : Charles Zipp
+Help         : 
+==============================================================================
+/usr/local/bin/terraform version
+Terraform v1.0.6
+on linux_amd64
++ provider registry.terraform.io/hashicorp/azuread v1.6.0
++ provider registry.terraform.io/hashicorp/azurerm v2.76.0
++ provider registry.terraform.io/hashicorp/random v3.1.0
+
+/usr/local/bin/terraform apply -auto-approve /home/vsts/work/1/terraform-manifests-out/test-16.out
+azurerm_kubernetes_cluster_node_pool.win101: Creating...
+╷
+│ Error: creating/updating Managed Kubernetes Cluster Node Pool "win101" (Resource Group "terraform-aks-test"): containerservice.AgentPoolsClient#CreateOrUpdate: Failure sending request: StatusCode=0 -- Original Error: Code="InvalidOSSKU" Message="OSSKU='Ubuntu' is invalid, details: Windows does not allow OSSKU selection"
+│ 
+│   with azurerm_kubernetes_cluster_node_pool.win101,
+│   on 10-aks-cluster-windows-user-nodepools.tf line 3, in resource "azurerm_kubernetes_cluster_node_pool" "win101":
+│    3: resource "azurerm_kubernetes_cluster_node_pool" "win101" {
+│ 
+╵
+
+
+
+
+https://github.com/hashicorp/terraform-provider-azurerm/blob/main/examples/kubernetes/spot-node-pool/main.tf
+
+
+tried to switch to alternate MS extension ... but the tf code is not compatible ... and seems like an extreme solution
+biker93 ... Org settings ... extensions ... delete old, run install from website 
+*** must be in Safari to get correct account/org ***
+
 
