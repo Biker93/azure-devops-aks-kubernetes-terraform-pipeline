@@ -30,7 +30,6 @@ and there is a link to my Visual Studio Subscription
 
 *** I may need to set the "default" subscription so "az" commands are targeted to the right environment ***
 
-
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # Terraform prototype
 
@@ -117,13 +116,8 @@ demo in 185: step 16
 https://www.udemy.com/course/azure-kubernetes-service-with-azure-devops-and-terraform/learn/lecture/23628396#overview
 
 
-
-
-
-
-
-
-
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# so problem with cloning ..
 
 He is using Github ... I'm using Azure Repos ... have to see if there is any functional difference
 "create local folder" 
@@ -155,4 +149,270 @@ open the Project Overview page ... Settings "Gear" is in the very bottom left
 Open Service Connections
 
 
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# WIndows Password length
+
 │ Error: creating Managed Kubernetes Cluster "terraform-aks-dev-cluster" (Resource Group "terraform-aks-dev"): containerservice.ManagedClustersClient#CreateOrUpdate: Failure sending request: StatusCode=0 -- Original Error: Code="WindowsProfilePasswordInvalid" Message="Invalid adminPassword. Error: Length of password is invalid. Required length: [14, 123]. Minimum password length required by AKS for AzSecPack is longer. Please see https://docs.microsoft.com/en-us/rest/api/compute/virtualmachinescalesets/createorupdate#virtualmachinescalesetosprofile"
+
+
+*** re-running job does not seem to pull updated repo code ***
+started a NEW job ... that got the changed password length and completed!!
+
+az aks get-credentials --resource-group terraform-aks-dev  --name terraform-aks-dev-cluster --admin
+*** error *** because I never used this account in terminal!
+
+az login   #in the Safari/MSDN browser
+kubectl config get-contexts
+cp ~/.kube/config ~/.kube/config-210911
+az aks get-credentials --resource-group terraform-aks-dev  --name terraform-aks-dev-cluster --admin
+kubectl config get-contexts
+
+az aks nodepool list --cluster-name terraform-aks-dev-cluster --resource-group terraform-aks-dev -o table
+
+
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Windows OSSKU 
+
+Error: creating/updating Managed Kubernetes Cluster Node Pool "win101" (Resource Group "terraform-aks-dev"): containerservice.AgentPoolsClient#CreateOrUpdate: Failure sending request: StatusCode=0 -- Original Error: Code="InvalidOSSKU" Message="OSSKU='Ubuntu' is invalid, details: Windows does not allow OSSKU selection"
+│ 
+on 10-aks-cluster-windows-user-nodepools.tf line 3, in resource "azurerm_kubernetes_cluster_node_pool" "win101":
+│    3: resource "azurerm_kubernetes_cluster_node_pool" "win101" {
+
+
+Added it manually to confirm parameters
+only difference: the default (required?) disk size = 128GB so specifying 30GB may be the error
+
+b/c I created it OUTSIDE of TF, get error whenrunning TF:
+Error: A resource with the ID "/subscriptions/cf71d4cd-095a-47ec-bca0-060c571abedf/resourcegroups/terraform-aks-dev/providers/Microsoft.ContainerService/managedClusters/terraform-aks-dev-cluster/agentPools/win101" already exists - to be managed via Terraform this resource needs to be imported into the State. Please see the resource documentation for "azurerm_kubernetes_cluster_node_pool" for more information.
+│ 
+
+manually delete win101 and re-run
+back to original error
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool
+
+
+disable current pipeline
+
+
+
+
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# rename all .tf to TEST/PROD
+
+push
+create new pipeline to test run from scratch --- JUST WINDOWS node pool
+still getting error
+
+Review the documentation ... again:
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool
+of interest:
+
+fips_enabled
+
+os_sku - (Optional) OsSKU to be used to specify Linux OSType. Not applicable to Windows OSType. Possible values include: Ubuntu, CBLMariner. Defaults to Ubuntu. Changing this forces a new resource to be created.
+
+os_type - (Optional) The Operating System which should be used for this Node Pool. Changing this forces a new resource to be created. Possible values are Linux and Windows. Defaults to Linux.
+
+node_count - (Optional) The initial number of nodes which should exist within this Node Pool. Valid values are between 0 and 1000 and must be a value in the range min_count - max_count.
+
+If enable_auto_scaling is set to false, then the following fields can also be configured:
+node_count - (Required) The number of nodes which should exist within this Node Pool. Valid values are between 0 and 1000.
+
+
+
+https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/kubernetes
+
+https://stacksimplify.com/azure-aks/create-aks-nodepools-using-terraform/
+
+https://stacksimplify.com/azure-aks/create-windows-linux-virtualnodepools-using-az-aks-cli/
+
+
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# create a Windows node from commandline, not Terraform
+
+AKS_RESOURCE_GROUP=terraform-aks-test
+AKS_CLUSTER=terraform-aks-test-cluster
+# Create New Windows Node Pool 
+az aks nodepool add --resource-group ${AKS_RESOURCE_GROUP} \
+                    --cluster-name ${AKS_CLUSTER} \
+                    --os-type Windows \
+                    --name win101 \
+                    --node-count 1 \
+                    --enable-cluster-autoscaler \
+                    --max-count 5 \
+                    --min-count 1 \
+                    --mode User \
+                    --node-vm-size Standard_DS2_v2 \
+                    --labels environment=production nodepoolos=windows app=dotnet-apps nodepool-type=user \
+                    --tags environment=production nodepoolos=windows app=dotnet-apps nodepool-type=user \
+                    --zones {1,2,3}
+
+{
+  "availabilityZones": [
+    "1",
+    "2",
+    "3"
+  ],
+  "count": 1,
+  "enableAutoScaling": true,
+  "enableEncryptionAtHost": false,
+  "enableFips": false,
+  "enableNodePublicIp": false,
+  "enableUltraSsd": false,
+  "gpuInstanceProfile": null,
+  "id": "/subscriptions/cf71d4cd-095a-47ec-bca0-060c571abedf/resourcegroups/terraform-aks-test/providers/Microsoft.ContainerService/managedClusters/terraform-aks-test-cluster/agentPools/win101",
+  "kubeletConfig": null,
+  "kubeletDiskType": "OS",
+  "linuxOsConfig": null,
+  "maxCount": 5,
+  "maxPods": 30,
+  "minCount": 1,
+  "mode": "User",
+  "name": "win101",
+  "nodeImageVersion": "AKSWindows-2019-17763.2114.210811",
+  "nodeLabels": {
+    "app": "dotnet-apps",
+    "environment": "production",
+    "nodepool-type": "user",
+    "nodepoolos": "windows"
+  },
+  "nodePublicIpPrefixId": null,
+  "nodeTaints": null,
+  "orchestratorVersion": "1.21.2",
+  "osDiskSizeGb": 128,
+  "osDiskType": "Managed",
+  "osSku": null,
+  "osType": "Windows",
+  "podSubnetId": null,
+  "powerState": {
+    "code": "Running"
+  },
+  "provisioningState": "Succeeded",
+  "proximityPlacementGroupId": null,
+  "resourceGroup": "terraform-aks-test",
+  "scaleSetEvictionPolicy": null,
+  "scaleSetPriority": null,
+  "spotMaxPrice": null,
+  "tags": {
+    "app": "dotnet-apps",
+    "environment": "production",
+    "nodepool-type": "user",
+    "nodepoolos": "windows"
+  },
+  "type": "Microsoft.ContainerService/managedClusters/agentPools",
+  "typePropertiesType": "VirtualMachineScaleSets",
+  "upgradeSettings": {
+    "maxSurge": null
+  },
+  "vmSize": "Standard_DS2_v2",
+  "vnetSubnetId": null
+}
+
+
+check the version info
+
+Initializing provider plugins...
+- Finding hashicorp/azuread versions matching "~> 1.0"...
+- Finding hashicorp/random versions matching "~> 3.0"...
+- Finding hashicorp/azurerm versions matching "~> 2.0"...
+- Installing hashicorp/azuread v1.6.0...
+- Installed hashicorp/azuread v1.6.0 (signed by HashiCorp)
+- Installing hashicorp/random v3.1.0...
+- Installed hashicorp/random v3.1.0 (signed by HashiCorp)
+- Installing hashicorp/azurerm v2.76.0...
+- Installed hashicorp/azurerm v2.76.0 (signed by HashiCorp)
+
+Terraform has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that Terraform can guarantee to make the same selections by default when
+you run "terraform init" in the future.
+
+
+
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Try try again
+
+Starting: Terraform Apply
+==============================================================================
+Task         : Terraform CLI
+Description  : Execute terraform cli commands
+Version      : 0.6.27
+Author       : Charles Zipp
+Help         : 
+==============================================================================
+/usr/local/bin/terraform version
+Terraform v1.0.6
+on linux_amd64
++ provider registry.terraform.io/hashicorp/azuread v1.6.0
++ provider registry.terraform.io/hashicorp/azurerm v2.76.0
++ provider registry.terraform.io/hashicorp/random v3.1.0
+
+/usr/local/bin/terraform apply -auto-approve /home/vsts/work/1/terraform-manifests-out/test-16.out
+azurerm_kubernetes_cluster_node_pool.win101: Creating...
+╷
+│ Error: creating/updating Managed Kubernetes Cluster Node Pool "win101" (Resource Group "terraform-aks-test"): containerservice.AgentPoolsClient#CreateOrUpdate: Failure sending request: StatusCode=0 -- Original Error: Code="InvalidOSSKU" Message="OSSKU='Ubuntu' is invalid, details: Windows does not allow OSSKU selection"
+│ 
+│   with azurerm_kubernetes_cluster_node_pool.win101,
+│   on 10-aks-cluster-windows-user-nodepools.tf line 3, in resource "azurerm_kubernetes_cluster_node_pool" "win101":
+│    3: resource "azurerm_kubernetes_cluster_node_pool" "win101" {
+
+
+
+https://github.com/hashicorp/terraform-provider-azurerm/blob/main/examples/kubernetes/spot-node-pool/main.tf
+
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# tried to switch to alternate MS extension ... but the tf code is not compatible ... and seems like an extreme solution
+biker93 ... Org settings ... extensions ... delete old, run install from website 
+*** must be in Safari to get correct account/org ***
+
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Back to a full build with only Linux 101 active
+
+# Verify
+az aks get-credentials --resource-group terraform-aks-test  --name terraform-aks-test-cluster --admin
+
+# connection
+az aks nodepool list --cluster-name terraform-aks-test-cluster --resource-group terraform-aks-test -o table
+
+# launch sample apps
+kubectl apply -R -f kube-manifests
+kubectl get all -A
+kubectl get svc
+http://52.141.209.251/
+
+Mgmt console:
+http://52.154.154.193/  need credentials
+
+https://github.com/stacksimplify/azure-aks-kubernetes-masterclass/tree/master/06-Azure-MySQL-for-AKS-Storage#readme
+Step-07: Access Application
+
+Username: admin101
+Password: password101
+
+Bingo!!
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# Windows OS_SKU
+
+tried to explicitly set SKU to null
+
+   with azurerm_kubernetes_cluster_node_pool.win101,
+│   on 10-aks-cluster-windows-user-nodepools.tf line 14, in resource "azurerm_kubernetes_cluster_node_pool" "win101":
+│   14:   os_sku                = ""
+
+https://www.terraform.io/docs/extend/best-practices/naming.html
+
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# 
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# 
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# 
