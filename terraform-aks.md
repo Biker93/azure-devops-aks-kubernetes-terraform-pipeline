@@ -399,7 +399,17 @@ Password: password101
 Bingo!!
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# 
+# Windows OS_SKU
+
+tried to explicitly set SKU to null
+
+   with azurerm_kubernetes_cluster_node_pool.win101,
+│   on 10-aks-cluster-windows-user-nodepools.tf line 14, in resource "azurerm_kubernetes_cluster_node_pool" "win101":
+│   14:   os_sku                = ""
+
+https://www.terraform.io/docs/extend/best-practices/naming.html
+
+
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
