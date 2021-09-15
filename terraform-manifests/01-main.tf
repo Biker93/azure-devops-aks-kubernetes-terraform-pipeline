@@ -10,7 +10,8 @@
 terraform {
   # 1. Required Version Terraform
 #  required_version = ">= 0.13"
-  required_version = "~> 0.15.0"
+#  required_version = "~> 0.15.0"
+  required_version = "~> <TERRAFORM VERSION>"
   # 2. Required Terraform Providers  
   required_providers {
     azurerm = {

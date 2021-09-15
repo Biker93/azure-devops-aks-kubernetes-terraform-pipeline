@@ -428,6 +428,19 @@ https://learn.hashicorp.com/tutorials/terraform/versions
 https://github.com/hashicorp/terraform/releases
 https://www.hashicorp.com/blog/announcing-hashicorp-terraform-1-0-general-availability
 
+no-go:
+│ Error: Unsupported Terraform Core version
+│ 
+│   on 01-main.tf line 13, in terraform:
+│   13:   required_version = "~> 0.15.0"
+│ 
+│ This configuration does not support Terraform version 1.0.6. To proceed,
+│ either choose another supported Terraform version or update this version
+│ constraint. Version constraints are normally set for good reason, so
+│ updating the constraint may lead to other errors or unexpected behavior.
+
+
+
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
