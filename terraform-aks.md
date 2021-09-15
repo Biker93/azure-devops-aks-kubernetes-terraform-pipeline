@@ -410,6 +410,24 @@ tried to explicitly set SKU to null
 https://www.terraform.io/docs/extend/best-practices/naming.html
 
 
+Kaylan confirmed he has the same result, so it is a bug in either Terraform or the Zipp plugin
+I'm using current versions of both
+Zipp Version	0.6.27	Released on	11/14/2018, 10:01:55 AM	Last updated	7/22/2021, 10:40:14 AM
+this bug is not listed on
+https://marketplace.visualstudio.com/items?itemName=charleszipp.azure-pipelines-tasks-terraform
+
+the class was recorded > 11/4/20 using version 0.5.16 11/14/18 release 11/4/20 update
+However, I don't see how to install a different version. The install page doesn't give an option
+Imight be able to download an earlier version, but how to install in the DevOps Organization extensions
+
+
+I could also change the TERRAFORM version to something about that date.
+Current: /usr/local/bin/terraform version  Terraform v1.0.6  on linux_amd64
+https://learn.hashicorp.com/tutorials/terraform/versions
+  try 0.15.0
+https://github.com/hashicorp/terraform/releases
+https://www.hashicorp.com/blog/announcing-hashicorp-terraform-1-0-general-availability
+
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
