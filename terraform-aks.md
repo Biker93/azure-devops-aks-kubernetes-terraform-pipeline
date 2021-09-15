@@ -440,6 +440,13 @@ no-go:
 │ updating the constraint may lead to other errors or unexpected behavior.
 
 
+I submtted report to 
+https://github.com/charleszipp/azure-pipelines-tasks-terraform/issues/163
+
+Also found reported on 
+https://githubmemory.com/repo/terraform-providers/terraform-provider-azurerm/issues?cursor=Y3Vyc29yOnYyOpK5MjAyMS0wOS0xM1QxMDo0MDoyMCswNTozMM47RkZ7&pagination=next&page=4
+
+
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # 
