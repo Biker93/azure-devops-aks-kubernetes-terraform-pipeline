@@ -606,6 +606,16 @@ on linux_amd64
 ╵
 
 
+https://registry.terraform.io/providers/hashicorp/azuread/latest/docs
+https://registry.terraform.io/providers/hashicorp/azuread/latest
+https://github.com/hashicorp/terraform-provider-azuread
+
+
+
+https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/group
+
+
+
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # 
