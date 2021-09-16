@@ -410,7 +410,7 @@ tried to explicitly set SKU to null
 https://www.terraform.io/docs/extend/best-practices/naming.html
 
 
-Kaylan confirmed he has the same result, so it is a bug in either Terraform or the Zipp plugin
+Kalyan confirmed he has the same result, so it is a bug in either Terraform or the Zipp plugin
 I'm using current versions of both
 Zipp Version	0.6.27	Released on	11/14/2018, 10:01:55 AM	Last updated	7/22/2021, 10:40:14 AM
 this bug is not listed on
@@ -445,6 +445,119 @@ https://github.com/charleszipp/azure-pipelines-tasks-terraform/issues/163
 
 Also found reported on 
 https://githubmemory.com/repo/terraform-providers/terraform-provider-azurerm/issues?cursor=Y3Vyc29yOnYyOpK5MjAyMS0wOS0xM1QxMDo0MDoyMCswNTozMM47RkZ7&pagination=next&page=4
+
+
+Kalyan reports he got it to work by upgrading JUST the azurerm version however I got an error
+
+==============================================================================
+Task         : Terraform CLI
+Description  : Execute terraform cli commands
+Version      : 0.6.27
+Author       : Charles Zipp
+Help         : 
+==============================================================================
+/usr/local/bin/terraform version
+Terraform v1.0.6
+on linux_amd64
++ provider registry.terraform.io/hashicorp/azuread v1.6.0
++ provider registry.terraform.io/hashicorp/azurerm v2.40.0
++ provider registry.terraform.io/hashicorp/random v3.1.0
+
+/usr/local/bin/terraform plan -var ssh_public_key=/home/vsts/work/_temp/aks-terraform-devops-ssh-key-ububtu.pub -var environment=test -out /home/vsts/work/1/terraform-manifests-out/test-28.out
+random_pet.aksrandom: Refreshing state... [id=exciting-wolf]
+azurerm_resource_group.aks_rg: Refreshing state... [id=/subscriptions/cf71d4cd-095a-47ec-bca0-060c571abedf/resourceGroups/terraform-aks-test]
+azuread_group.aks_administrators: Refreshing state... [id=d01a7cd8-5aa6-490b-aff7-d27f4844fe94]
+╷
+│ Warning: Attribute is deprecated
+│ 
+│   with azuread_group.aks_administrators,
+│   on 06-aks-administrators-azure-ad.tf line 3, in resource "azuread_group" "aks_administrators":
+│    3:   name        = "${azurerm_resource_group.aks_rg.name}-administrators"
+│ │ 
+│ This property has been renamed to `display_name` and will be removed in
+│ version 2.0 of the AzureAD provider
+╵
+╷
+│ Warning: Deprecated Attribute
+│ 
+│   with azuread_group.aks_administrators,
+│   on 06-aks-administrators-azure-ad.tf line 3, in resource "azuread_group" "aks_administrators":
+│    3:   name        = "${azurerm_resource_group.aks_rg.name}-administrators"
+│ 
+│ This property has been renamed to `display_name` and will be removed in
+│ version 2.0 of the AzureAD provider
+╵
+╷
+│ Error: Resource instance managed by newer provider version
+│ 
+│ The current state of azurerm_log_analytics_workspace.insights was created
+│ by a newer provider version than is currently selected. Upgrade the azurerm
+│ provider to work with this state.
+╵
+
+##[error]Terraform command 'plan' failed with exit code '1'.
+##[error]╷
+│ Error: Resource instance managed by newer provider version
+│ 
+│ The current state of azurerm_log_analytics_workspace.insights was created
+│ by a newer provider version than is currently selected. Upgrade the azurerm
+│ provider to work with this state.
+╵
+
+Finishing: Terraform Plan
+
+
+
+
+terraform {
+  # 1. Required Version Terraform
+  required_version = ">= 0.13"
+#  required_version = "~> 0.15.0"
+#  required_version = ">= 1.0.6"
+
+  # 2. Required Terraform Providers  
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+#      version = "~> 2.0"
+#      version = ">= 2.0"
+      version = "= 2.40.0"
+    }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 1.0"
+#      version = ">= 1.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+#      version = ">= 3.0"
+    }
+  }
+
+
+
+│ An argument named "name" is not expected here.
+╵
+
+##[error]Terraform command 'validate' failed with exit code '1'.
+##[error]╷
+│ Error: Missing required argument
+│ 
+│   on 06-aks-administrators-azure-ad.tf line 2, in resource "azuread_group" "aks_administrators":
+│    2: resource "azuread_group" "aks_administrators" {
+│ 
+│ The argument "display_name" is required, but no definition was found.
+╵
+
+╷
+│ Error: Unsupported argument
+│ 
+│   on 06-aks-administrators-azure-ad.tf line 3, in resource "azuread_group" "aks_administrators":
+│    3:   name        = "${azurerm_resource_group.aks_rg.name}-administrators"
+│ 
+│ An argument named "name" is not expected here.
+╵
 
 
 
