@@ -560,6 +560,52 @@ terraform {
 ╵
 
 
+==============================================================================
+Starting: Terraform Validate
+
+==============================================================================
+Task         : Terraform CLI
+Description  : Execute terraform cli commands
+Version      : 0.6.27
+Author       : Charles Zipp
+Help         : 
+==============================================================================
+/opt/hostedtoolcache/terraform/1.0.7/x64/terraform version
+Terraform v1.0.7
+on linux_amd64
++ provider registry.terraform.io/hashicorp/azuread v2.2.1
++ provider registry.terraform.io/hashicorp/azurerm v2.76.0
++ provider registry.terraform.io/hashicorp/random v3.1.0
+
+/opt/hostedtoolcache/terraform/1.0.7/x64/terraform validate
+╷
+│ Error: Missing required argument
+│ 
+│   on 06-aks-administrators-azure-ad.tf line 2, in resource "azuread_group" "aks_administrators":
+│    2: resource "azuread_group" "aks_administrators" {
+│ 
+│ The argument "display_name" is required, but no definition was found.
+╵
+
+│ Error: Unsupported argument
+│ 
+│   on 06-aks-administrators-azure-ad.tf line 3, in resource "azuread_group" "aks_administrators":
+│    3:   name        = "${azurerm_resource_group.aks_rg.name}-administrators"
+│ 
+│ An argument named "name" is not expected here.
+╵
+
+##[error]Terraform command 'validate' failed with exit code '1'.
+##[error]╷
+│ Error: Missing required argument
+│ 
+│   on 06-aks-administrators-azure-ad.tf line 2, in resource "azuread_group" "aks_administrators":
+│    2: resource "azuread_group" "aks_administrators" {
+│ 
+│ The argument "display_name" is required, but no definition was found.
+╵
+
+
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # 
