@@ -20,16 +20,17 @@ terraform {
 #      version = "~> 2.0"
 #      version = ">= 2.0"
       version = "= 2.40.0"
+#      version = "= 2.1"
     }
     azuread = {
       source  = "hashicorp/azuread"
-#      version = "~> 1.0"
-      version = ">= 1.0"
+      version = "~> 1.0"
+#      version = ">= 1.0"
     }
     random = {
       source  = "hashicorp/random"
-#      version = "~> 3.0"
-      version = ">= 3.0"
+      version = "~> 3.0"
+#      version = ">= 3.0"
     }
   }
 
