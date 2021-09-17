@@ -39,6 +39,85 @@ https://github.com/stacksimplify/azure-aks-kubernetes-masterclass/tree/master/25
 https://github.com/stacksimplify/azure-devops-aks-kubernetes-terraform-pipeline
 https://github.com/stacksimplify/azure-devops-github-acr-aks-app1
 
+Other links
+https://github.com/hashicorp/terraform-provider-azurerm/blob/main/examples/kubernetes/spot-node-pool/main.tf
+
+
+Final Link Set - Safari
+
+Portal:
+https://portal.azure.com/#@kthomsonair.onmicrosoft.com/resource/subscriptions/cf71d4cd-095a-47ec-bca0-060c571abedf/resourceGroups/terraform-aks-test/overview
+
+DevOps:
+https://biker93.visualstudio.com/terraform-azure-aks/_build/results?buildId=39&view=logs&j=ebb496a5-b0ba-51c9-e535-6a91110d593c&t=ebb496a5-b0ba-51c9-e535-6a91110d593c
+
+Costs:
+https://portal.azure.com/#blade/Microsoft_Azure_CostManagement/CostAnalysis/scope/%2Fsubscriptions%2Fcf71d4cd-095a-47ec-bca0-060c571abedf
+
+
+Final Link Set - CHROME
+
+https://www.udemy.com/course/azure-kubernetes-service-with-azure-devops-and-terraform/learn/lecture/23644074#questions/15815870
+
+https://github.com/stacksimplify/azure-aks-kubernetes-masterclass/tree/master/25-Azure-DevOps-Terraform-Azure-AKS
+
+https://www.udemy.com/home/my-courses/learning/?p=9
+
+https://marketplace.visualstudio.com/items?itemName=ms-devlabs.custom-terraform-tasks
+
+https://marketplace.visualstudio.com/items?itemName=charleszipp.azure-pipelines-tasks-terraform
+
+https://github.com/charleszipp/azure-pipelines-tasks-terraform/issues/163
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool
+
+https://registry.terraform.io/providers/hashicorp/azuread/latest/docs
+
+https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/group
+
+https://registry.terraform.io/providers/hashicorp/azuread/latest
+
+https://github.com/hashicorp/terraform-provider-azuread
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest
+
+https://github.com/hashicorp/terraform-provider-azurerm/blob/main/examples/kubernetes/spot-node-pool/main.tf
+
+https://github.com/Biker93/azure-devops-aks-kubernetes-terraform-pipeline
+
+https://www.terraform.io/docs/extend/best-practices/naming.html
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine
+
+https://registry.terraform.io/providers/hashicorp/azurerm/2.17.0/docs/resources/kubernetes_cluster_node_pool
+
+https://stacksimplify.com/azure-aks/create-windows-linux-virtualnodepools-using-az-aks-cli/
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/kubernetes_cluster_node_pool#example-usage
+
+https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
+
+https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/kubernetes
+
+https://github.com/hashicorp/terraform-provider-azurerm/tree/main/examples/kubernetes/aci_connector_linux
+
+https://learn.hashicorp.com/tutorials/terraform/troubleshooting-workflow?utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS
+
+https://www.terraform.io/upgrade-guides/0-15.html
+
+https://learn.hashicorp.com/tutorials/terraform/versions
+
+https://docs.microsoft.com/en-us/azure/aks/private-clusters
+
+https://datatracker.ietf.org/doc/html/rfc1918
+
+https://docs.microsoft.com/en-us/azure/private-link/private-link-service-overview#limitations
+
+
+
+
 
 Step 02  *** using SAFARI for MSDN accounts ***
 https://biker93.visualstudio.com    (sign in)
@@ -196,9 +275,6 @@ https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/
 disable current pipeline
 
 
-
-
-
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # rename all .tf to TEST/PROD
 
@@ -332,40 +408,6 @@ so that Terraform can guarantee to make the same selections by default when
 you run "terraform init" in the future.
 
 
-
-
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# Try try again
-
-Starting: Terraform Apply
-==============================================================================
-Task         : Terraform CLI
-Description  : Execute terraform cli commands
-Version      : 0.6.27
-Author       : Charles Zipp
-Help         : 
-==============================================================================
-/usr/local/bin/terraform version
-Terraform v1.0.6
-on linux_amd64
-+ provider registry.terraform.io/hashicorp/azuread v1.6.0
-+ provider registry.terraform.io/hashicorp/azurerm v2.76.0
-+ provider registry.terraform.io/hashicorp/random v3.1.0
-
-/usr/local/bin/terraform apply -auto-approve /home/vsts/work/1/terraform-manifests-out/test-16.out
-azurerm_kubernetes_cluster_node_pool.win101: Creating...
-╷
-│ Error: creating/updating Managed Kubernetes Cluster Node Pool "win101" (Resource Group "terraform-aks-test"): containerservice.AgentPoolsClient#CreateOrUpdate: Failure sending request: StatusCode=0 -- Original Error: Code="InvalidOSSKU" Message="OSSKU='Ubuntu' is invalid, details: Windows does not allow OSSKU selection"
-│ 
-│   with azurerm_kubernetes_cluster_node_pool.win101,
-│   on 10-aks-cluster-windows-user-nodepools.tf line 3, in resource "azurerm_kubernetes_cluster_node_pool" "win101":
-│    3: resource "azurerm_kubernetes_cluster_node_pool" "win101" {
-
-
-
-https://github.com/hashicorp/terraform-provider-azurerm/blob/main/examples/kubernetes/spot-node-pool/main.tf
-
-
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # tried to switch to alternate MS extension ... but the tf code is not compatible ... and seems like an extreme solution
 biker93 ... Org settings ... extensions ... delete old, run install from website 
@@ -447,163 +489,26 @@ Also found reported on
 https://githubmemory.com/repo/terraform-providers/terraform-provider-azurerm/issues?cursor=Y3Vyc29yOnYyOpK5MjAyMS0wOS0xM1QxMDo0MDoyMCswNTozMM47RkZ7&pagination=next&page=4
 
 
-Kalyan reports he got it to work by upgrading JUST the azurerm version however I got an error
+*** Kalyan reports he got it to work by upgrading JUST the azurerm version however I got an error  ***
 
-==============================================================================
-Task         : Terraform CLI
-Description  : Execute terraform cli commands
-Version      : 0.6.27
-Author       : Charles Zipp
-Help         : 
-==============================================================================
-/usr/local/bin/terraform version
-Terraform v1.0.6
-on linux_amd64
-+ provider registry.terraform.io/hashicorp/azuread v1.6.0
-+ provider registry.terraform.io/hashicorp/azurerm v2.40.0
-+ provider registry.terraform.io/hashicorp/random v3.1.0
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+# cont'
 
-/usr/local/bin/terraform plan -var ssh_public_key=/home/vsts/work/_temp/aks-terraform-devops-ssh-key-ububtu.pub -var environment=test -out /home/vsts/work/1/terraform-manifests-out/test-28.out
-random_pet.aksrandom: Refreshing state... [id=exciting-wolf]
-azurerm_resource_group.aks_rg: Refreshing state... [id=/subscriptions/cf71d4cd-095a-47ec-bca0-060c571abedf/resourceGroups/terraform-aks-test]
-azuread_group.aks_administrators: Refreshing state... [id=d01a7cd8-5aa6-490b-aff7-d27f4844fe94]
-╷
-│ Warning: Attribute is deprecated
-│ 
-│   with azuread_group.aks_administrators,
-│   on 06-aks-administrators-azure-ad.tf line 3, in resource "azuread_group" "aks_administrators":
-│    3:   name        = "${azurerm_resource_group.aks_rg.name}-administrators"
-│ │ 
+Messed around with different versions of Terraform, azurerm, groups, etc ...
+Finally reset back to original EXCEPT for azurerm at 2.40.0
+
+That works ... but only after completely deleting the cluster and the tfstate files
+
+Another thing: when I tried upgrading to more current versions (>= rather than ~=) I got errors related to new options, esp in azuread:  
+   name -> display_name
+   add security_enabled=true
+but this caused other problems so went back to ONLY azurerm upgrade
+
+   3:   name        = "${azurerm_resource_group.aks_rg.name}-administrators"
 │ This property has been renamed to `display_name` and will be removed in
 │ version 2.0 of the AzureAD provider
-╵
-╷
-│ Warning: Deprecated Attribute
-│ 
-│   with azuread_group.aks_administrators,
-│   on 06-aks-administrators-azure-ad.tf line 3, in resource "azuread_group" "aks_administrators":
-│    3:   name        = "${azurerm_resource_group.aks_rg.name}-administrators"
-│ 
-│ This property has been renamed to `display_name` and will be removed in
-│ version 2.0 of the AzureAD provider
-╵
-╷
-│ Error: Resource instance managed by newer provider version
-│ 
-│ The current state of azurerm_log_analytics_workspace.insights was created
-│ by a newer provider version than is currently selected. Upgrade the azurerm
-│ provider to work with this state.
-╵
 
-##[error]Terraform command 'plan' failed with exit code '1'.
-##[error]╷
-│ Error: Resource instance managed by newer provider version
-│ 
-│ The current state of azurerm_log_analytics_workspace.insights was created
-│ by a newer provider version than is currently selected. Upgrade the azurerm
-│ provider to work with this state.
-╵
-
-Finishing: Terraform Plan
-
-
-
-
-terraform {
-  # 1. Required Version Terraform
-  required_version = ">= 0.13"
-#  required_version = "~> 0.15.0"
-#  required_version = ">= 1.0.6"
-
-  # 2. Required Terraform Providers  
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-#      version = "~> 2.0"
-#      version = ">= 2.0"
-      version = "= 2.40.0"
-    }
-    azuread = {
-      source  = "hashicorp/azuread"
-      version = "~> 1.0"
-#      version = ">= 1.0"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = "~> 3.0"
-#      version = ">= 3.0"
-    }
-  }
-
-
-
-│ An argument named "name" is not expected here.
-╵
-
-##[error]Terraform command 'validate' failed with exit code '1'.
-##[error]╷
-│ Error: Missing required argument
-│ 
-│   on 06-aks-administrators-azure-ad.tf line 2, in resource "azuread_group" "aks_administrators":
-│    2: resource "azuread_group" "aks_administrators" {
-│ 
-│ The argument "display_name" is required, but no definition was found.
-╵
-
-╷
-│ Error: Unsupported argument
-│ 
-│   on 06-aks-administrators-azure-ad.tf line 3, in resource "azuread_group" "aks_administrators":
-│    3:   name        = "${azurerm_resource_group.aks_rg.name}-administrators"
-│ 
-│ An argument named "name" is not expected here.
-╵
-
-
-==============================================================================
-Starting: Terraform Validate
-
-==============================================================================
-Task         : Terraform CLI
-Description  : Execute terraform cli commands
-Version      : 0.6.27
-Author       : Charles Zipp
-Help         : 
-==============================================================================
-/opt/hostedtoolcache/terraform/1.0.7/x64/terraform version
-Terraform v1.0.7
-on linux_amd64
-+ provider registry.terraform.io/hashicorp/azuread v2.2.1
-+ provider registry.terraform.io/hashicorp/azurerm v2.76.0
-+ provider registry.terraform.io/hashicorp/random v3.1.0
-
-/opt/hostedtoolcache/terraform/1.0.7/x64/terraform validate
-╷
-│ Error: Missing required argument
-│ 
-│   on 06-aks-administrators-azure-ad.tf line 2, in resource "azuread_group" "aks_administrators":
-│    2: resource "azuread_group" "aks_administrators" {
-│ 
-│ The argument "display_name" is required, but no definition was found.
-╵
-
-│ Error: Unsupported argument
-│ 
-│   on 06-aks-administrators-azure-ad.tf line 3, in resource "azuread_group" "aks_administrators":
-│    3:   name        = "${azurerm_resource_group.aks_rg.name}-administrators"
-│ 
-│ An argument named "name" is not expected here.
-╵
-
-##[error]Terraform command 'validate' failed with exit code '1'.
-##[error]╷
-│ Error: Missing required argument
-│ 
-│   on 06-aks-administrators-azure-ad.tf line 2, in resource "azuread_group" "aks_administrators":
-│    2: resource "azuread_group" "aks_administrators" {
-│ 
-│ The argument "display_name" is required, but no definition was found.
-╵
+etc.
 
 
 https://registry.terraform.io/providers/hashicorp/azuread/latest/docs
@@ -611,14 +516,43 @@ https://registry.terraform.io/providers/hashicorp/azuread/latest
 https://github.com/hashicorp/terraform-provider-azuread
 
 
-
 https://registry.terraform.io/providers/hashicorp/azuread/latest/docs/resources/group
 
-
-
-
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-# 
+# WORKING
+
+Finally ...
+
+re-enabled 10-win101 ... still working
+
+run apps
+
+# Verify
+az aks get-credentials --resource-group terraform-aks-test  --name terraform-aks-test-cluster --admin
+
+# connection
+az aks nodepool list --cluster-name terraform-aks-test-cluster --resource-group terraform-aks-test -o table
+
+# launch sample apps
+kubectl apply -R -f kube-manifests
+kubectl get all -A
+kubectl get svc
+
+https://github.com/stacksimplify/azure-aks-kubernetes-masterclass/tree/master/06-Azure-MySQL-for-AKS-Storage#readme
+Step-07: Access Application
+
+Mgmt console:
+http://52.154.154.193/
+Username: admin101
+Password: password101
+
+nginx:
+http://52.141.209.251/
+
+aspnet:
+http://20.98.188.200
+
+
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 # 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
